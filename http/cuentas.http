@@ -1,0 +1,27 @@
+GET http://localhost:3000/api/cuentas HTTP/1.1
+###
+POST http://localhost:3000/api/cuentas/nueva HTTP/1.1
+content-Type: application/json
+
+{
+    "idUsuario":1,
+    "nombreCuenta":"Viaje a Hawai",
+    "saldoCuenta":3002.50
+}
+###
+POST http://localhost:3000/api/cuentas/movimiento HTTP/1.1
+content-Type: application/json
+
+{
+    "idCuenta":39,
+    "tipoMovimiento":"gasto",
+    "cantidadMovimiento":2000
+}
+###
+POST http://localhost:3000/api/cuentas/generate/19 HTTP/1.1
+content-Type: application/json
+
+{
+}
+###
+DELETE http://localhost:3000/api/cuentas/16 HTTP/1.1
