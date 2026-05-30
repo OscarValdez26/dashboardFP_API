@@ -14,9 +14,7 @@ export const obtenerPresupuestos = async (req: Request, res: Response) => {
 export const nuevoPresupuesto = async (req: Request, res: Response) => {
   const data = req.body;
   const success = await newPresupuesto(Number(req.user?.id), data);
-  return res
-    .status(200)
-    .json({ success: success, message: "Presupuesto creado" });
+  return res.status(200).json({ message: "Presupuesto creado" });
 };
 
 export const actualizarPresupuesto = async (req: Request, res: Response) => {
@@ -26,9 +24,7 @@ export const actualizarPresupuesto = async (req: Request, res: Response) => {
     Number(req.user?.id),
     data,
   );
-  return res
-    .status(200)
-    .json({ success: success, message: "Presupuesto actualizado" });
+  return res.status(200).json({ message: "Presupuesto actualizado" });
 };
 
 export const borrarPresupuesto = async (req: Request, res: Response) => {
@@ -36,7 +32,5 @@ export const borrarPresupuesto = async (req: Request, res: Response) => {
     Number(req.params.id),
     Number(req.user?.id),
   );
-  return res
-    .status(200)
-    .json({ success: success, message: "Presupuesto eliminado" });
+  return res.status(200).json({ message: "Presupuesto eliminado" });
 };

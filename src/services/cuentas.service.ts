@@ -16,7 +16,7 @@ import {
   lt,
 } from "drizzle-orm";
 import { AppError } from "../libs/appError.js";
-import { arqueos } from "../database/schemas/arqueos.js";
+// import { arqueos } from "../database/schemas/arqueos.js";
 import { movimientos } from "../database/schemas/movimientos.js";
 
 type HistorialItem = {
@@ -119,10 +119,10 @@ export const getCuentas = async (id: number) => {
   return cuentasExistentes;
 };
 
-export const nuevaCuenta = async (cuenta: any) => {
-  const cuentaNueva = await db.insert(cuentas).values(cuenta).returning();
-  return cuentaNueva;
-};
+// export const nuevaCuenta = async (cuenta: any) => {
+//   const cuentaNueva = await db.insert(cuentas).values(cuenta).returning();
+//   return cuentaNueva;
+// };
 
 export const nuevoMovimiento = async (tx: any, id: number, movimiento: any) => {
   const [cuentaExiste] = await tx
@@ -154,62 +154,62 @@ export const nuevoMovimiento = async (tx: any, id: number, movimiento: any) => {
   return nuevoSaldo;
 };
 
-export const generateArqueo = async (id: number, idUsuario: number) => {
-  const [result] = await db.transaction(async (tx) => {
-    const [cuentaExiste] = await tx
-      .select()
-      .from(cuentas)
-      .where(eq(cuentas.idCuenta, id));
-    if (!cuentaExiste) throw new AppError("La cuenta no existe", 404);
-    const [ultimoArqueo] = await tx
-      .select()
-      .from(arqueos)
-      .where(eq(arqueos.idUsuario, idUsuario))
-      .orderBy(desc(arqueos.fechaFinal))
-      .limit(1);
-    const fechaInicio = ultimoArqueo?.fechaFinal || new Date(0);
-    const fechaFinal = new Date();
-    const [resumen] = await tx
-      .select({
-        ingresos: sql<number>`
-      COALESCE(SUM(CASE 
-        WHEN ${movimientos.cuentaDestino} = ${id} 
-        THEN ${movimientos.cantidadMovimiento} 
-        ELSE 0 
-      END), 0)
-    `,
-        gastos: sql<number>`
-      COALESCE(SUM(CASE 
-        WHEN ${movimientos.cuentaOrigen} = ${id}
-        THEN ${movimientos.cantidadMovimiento} 
-        ELSE 0 
-      END), 0)
-    `,
-      })
-      .from(movimientos)
-      .where(
-        and(
-          eq(movimientos.idUsuario, idUsuario),
-          between(movimientos.fechaMovimiento, fechaInicio, fechaFinal),
-        ),
-      );
-    const saldoInicial = Number(ultimoArqueo?.saldoFinal) || 0;
-    const saldoFinal =
-      saldoInicial + Number(resumen.ingresos) - Number(resumen.gastos);
-    const arqueo = {
-      idUsuario: idUsuario,
-      idCuenta: id,
-      fechaInicio: fechaInicio,
-      fechaFinal: fechaFinal,
-      saldoInicial: saldoInicial.toString(),
-      saldoFinal: saldoFinal.toString(),
-      totalIngresos: resumen.ingresos.toString(),
-      totalGastos: resumen.gastos.toString(),
-    };
-    return await tx.insert(arqueos).values(arqueo).returning();
-  });
-  return result;
-};
+// export const generateArqueo = async (id: number, idUsuario: number) => {
+//   const [result] = await db.transaction(async (tx) => {
+//     const [cuentaExiste] = await tx
+//       .select()
+//       .from(cuentas)
+//       .where(eq(cuentas.idCuenta, id));
+//     if (!cuentaExiste) throw new AppError("La cuenta no existe", 404);
+//     const [ultimoArqueo] = await tx
+//       .select()
+//       .from(arqueos)
+//       .where(eq(arqueos.idUsuario, idUsuario))
+//       .orderBy(desc(arqueos.fechaFinal))
+//       .limit(1);
+//     const fechaInicio = ultimoArqueo?.fechaFinal || new Date(0);
+//     const fechaFinal = new Date();
+//     const [resumen] = await tx
+//       .select({
+//         ingresos: sql<number>`
+//       COALESCE(SUM(CASE
+//         WHEN ${movimientos.cuentaDestino} = ${id}
+//         THEN ${movimientos.cantidadMovimiento}
+//         ELSE 0
+//       END), 0)
+//     `,
+//         gastos: sql<number>`
+//       COALESCE(SUM(CASE
+//         WHEN ${movimientos.cuentaOrigen} = ${id}
+//         THEN ${movimientos.cantidadMovimiento}
+//         ELSE 0
+//       END), 0)
+//     `,
+//       })
+//       .from(movimientos)
+//       .where(
+//         and(
+//           eq(movimientos.idUsuario, idUsuario),
+//           between(movimientos.fechaMovimiento, fechaInicio, fechaFinal),
+//         ),
+//       );
+//     const saldoInicial = Number(ultimoArqueo?.saldoFinal) || 0;
+//     const saldoFinal =
+//       saldoInicial + Number(resumen.ingresos) - Number(resumen.gastos);
+//     const arqueo = {
+//       idUsuario: idUsuario,
+//       idCuenta: id,
+//       fechaInicio: fechaInicio,
+//       fechaFinal: fechaFinal,
+//       saldoInicial: saldoInicial.toString(),
+//       saldoFinal: saldoFinal.toString(),
+//       totalIngresos: resumen.ingresos.toString(),
+//       totalGastos: resumen.gastos.toString(),
+//     };
+//     return await tx.insert(arqueos).values(arqueo).returning();
+//   });
+//   return result;
+// };
 
 export const eliminarCuenta = async (id: number, idUsuario: number) => {
   const [cuentaExiste] = await db

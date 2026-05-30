@@ -7,8 +7,8 @@ import { rateLimiter } from "../middlewares/rateLimit.js";
 
 const router = Router();
 
-router.get("/all", controller.obtenerUsuarios);
-router.get("/:id", controller.obtenerUsuario);
+// router.get("/all", controller.obtenerUsuarios);
+// router.get("/:id", controller.obtenerUsuario);
 router.post(
   "/register",
   validarJSON(usuarioSchema),

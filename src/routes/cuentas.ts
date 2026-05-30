@@ -8,8 +8,8 @@ const router = Router();
 
 router.get("/", auth, controller.obtenerCuentas);
 router.get("/historial", auth, controller.obtenerHistorial);
-router.post("/nueva", auth, validarJSON(cuentaSchema), controller.crearCuenta);
-router.post("/generate/:id", auth, controller.generarArqueo);
+// router.post("/nueva", auth, validarJSON(cuentaSchema), controller.crearCuenta);
+// router.post("/generate/:id", auth, controller.generarArqueo);
 router.delete("/:id", auth, controller.borrarCuenta);
 
 export default router;

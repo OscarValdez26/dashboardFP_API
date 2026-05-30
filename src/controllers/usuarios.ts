@@ -18,31 +18,31 @@ import { emailRecuperacion, emailVerificacion } from "../libs/resend.js";
 import "dotenv/config";
 import { AppError } from "../libs/appError.js";
 
-export const obtenerUsuarios = async (req: Request, res: Response) => {
-  try {
-    const listaUsuarios = await db.select().from(usuarios);
-    return res.status(200).json(listaUsuarios);
-  } catch (error) {
-    return res.status(500).json(error);
-  }
-};
+// export const obtenerUsuarios = async (req: Request, res: Response) => {
+//   try {
+//     const listaUsuarios = await db.select().from(usuarios);
+//     return res.status(200).json(listaUsuarios);
+//   } catch (error) {
+//     return res.status(500).json(error);
+//   }
+// };
 
-export const obtenerUsuario = async (req: Request, res: Response) => {
-  try {
-    const idUsuario = Number(req.params.id);
-    const [usuario] = await db
-      .select()
-      .from(usuarios)
-      .where(eq(usuarios.idUsuario, idUsuario))
-      .limit(1);
-    if (usuario == null) {
-      return res.status(404).json({ message: "Usuario no encontrado" });
-    }
-    return res.status(200).json(usuario);
-  } catch (error) {
-    return res.status(500).json(error);
-  }
-};
+// export const obtenerUsuario = async (req: Request, res: Response) => {
+//   try {
+//     const idUsuario = Number(req.params.id);
+//     const [usuario] = await db
+//       .select()
+//       .from(usuarios)
+//       .where(eq(usuarios.idUsuario, idUsuario))
+//       .limit(1);
+//     if (usuario == null) {
+//       return res.status(404).json({ message: "Usuario no encontrado" });
+//     }
+//     return res.status(200).json(usuario);
+//   } catch (error) {
+//     return res.status(500).json(error);
+//   }
+// };
 
 export const registrarUsuario = async (req: Request, res: Response) => {
   const nuevoUsuario = req.body;
@@ -108,12 +108,10 @@ export const forgotPassword = async (req: Request, res: Response) => {
     const enlace = `${process.env.FRONTEND_URL}/reset-password?token=${token}`;
     emailRecuperacion(email, enlace);
   }
-  return res
-    .status(200)
-    .json({
-      message:
-        "Enlace de recuperación enviado a su email, no olvide revisar en la carpeta de spam",
-    });
+  return res.status(200).json({
+    message:
+      "Enlace de recuperación enviado a su email, no olvide revisar en la carpeta de spam",
+  });
 };
 
 export const resetPassword = async (req: Request, res: Response) => {

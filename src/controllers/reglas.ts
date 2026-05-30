@@ -7,7 +7,7 @@ import type { Request, Response } from "express";
 
 export const obtenerReglas = async (req: Request, res: Response) => {
   const reglas = await getReglas(Number(req.user!.id));
-  return res.status(200).json(reglas);
+  return res.status(200).json({ success: true, result: reglas });
 };
 
 export const nuevaRegla = async (req: Request, res: Response) => {

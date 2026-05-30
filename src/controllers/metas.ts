@@ -8,7 +8,7 @@ import {
 
 export const obtenerMetas = async (req: Request, res: Response) => {
   const metasUsuario = await getMetas(Number(req.user!.id));
-  return res.status(200).json(metasUsuario);
+  return res.status(200).json({ success: true, result: metasUsuario });
 };
 
 export const crearMeta = async (req: Request, res: Response) => {

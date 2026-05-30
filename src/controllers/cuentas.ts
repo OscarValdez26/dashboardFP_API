@@ -1,26 +1,25 @@
 import type { Request, Response } from "express";
 import {
   eliminarCuenta,
-  generateArqueo,
+  // generateArqueo,
   getCuentas,
   getHistorial,
-  nuevaCuenta,
+  // nuevaCuenta,
   nuevoMovimiento,
 } from "../services/cuentas.service.js";
-import { success } from "zod";
 
 export const obtenerCuentas = async (req: Request, res: Response) => {
   const cuentas = await getCuentas(Number(req.user!.id));
-  return res.status(200).json(cuentas);
+  return res.status(200).json({ success: true, result: cuentas });
 };
 
-export const crearCuenta = async (req: Request, res: Response) => {
-  const cuenta = req.body;
-  const cuentaNueva = await nuevaCuenta(cuenta);
-  return res
-    .status(201)
-    .json({ message: "Cuenta creada", cuenta: cuentaNueva });
-};
+// export const crearCuenta = async (req: Request, res: Response) => {
+//   const cuenta = req.body;
+//   const cuentaNueva = await nuevaCuenta(cuenta);
+//   return res
+//     .status(201)
+//     .json({ message: "Cuenta creada", cuenta: cuentaNueva });
+// };
 
 // export const movimientoCuenta = async (req: Request, res: Response) => {
 //   const movimiento = req.body;
@@ -28,13 +27,13 @@ export const crearCuenta = async (req: Request, res: Response) => {
 //   return res.status(200).json(nuevoSaldo);
 // };
 
-export const generarArqueo = async (req: Request, res: Response) => {
-  const result = await generateArqueo(
-    Number(req.params.id),
-    Number(req.user!.id),
-  );
-  return res.status(200).json({ message: "Arqueo exitoso", result: result });
-};
+// export const generarArqueo = async (req: Request, res: Response) => {
+//   const result = await generateArqueo(
+//     Number(req.params.id),
+//     Number(req.user!.id),
+//   );
+//   return res.status(200).json({ message: "Arqueo exitoso", result: result });
+// };
 
 export const borrarCuenta = async (req: Request, res: Response) => {
   await eliminarCuenta(Number(req.params.id), Number(req.user!.id));

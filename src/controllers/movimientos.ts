@@ -7,10 +7,10 @@ import {
 } from "../services/movimientos.service.js";
 import type { Request, Response } from "express";
 
-export const obtenerMovimientos = async (req: Request, res: Response) => {
-  const movimientos = await getMovimientos(Number(req.user!.id));
-  return res.status(200).json(movimientos);
-};
+// export const obtenerMovimientos = async (req: Request, res: Response) => {
+//   const movimientos = await getMovimientos(Number(req.user!.id));
+//   return res.status(200).json(movimientos);
+// };
 
 export const nuevoMovimiento = async (req: Request, res: Response) => {
   const nuevoMovimiento = req.body;

@@ -6,7 +6,7 @@ import { nuevoMovimientoSchema, periodoSchema } from "../libs/zod.js";
 
 const router = Router();
 
-router.get("/", auth, controller.obtenerMovimientos);
+// router.get("/", auth, controller.obtenerMovimientos);
 router.post(
   "/nuevo",
   auth,

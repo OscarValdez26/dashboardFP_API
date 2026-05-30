@@ -6,7 +6,7 @@ import {
 
 export const obtenerCategorias = async (req: Request, res: Response) => {
   const data = await getCategorias();
-  return res.status(200).json(data);
+  return res.status(200).json({ success: true, result: data });
 };
 
 export const obtenerCategoria = async (req: Request, res: Response) => {
